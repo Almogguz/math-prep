@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>הכנה למבחן במתמטיקה | א'2</title>
+    <!-- MathJax for beautiful math rendering -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        :root {
+            --primary: #0f172a; 
+            --accent: #06b6d4;  
+            --bg: #f8fafc;      
+            --card-bg: #ffffff;
+            --text-main: #334155;
+            --text-light: #64748b;
+            --success: #10b981;
+            --error: #f43f5e;
+            --border: #e2e8f0;
+        }
+
+        body {
+            font-family: 'system-ui', -apple-system, sans-serif;
+            background-color: var(--bg);
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 60px 20px;
+            background-color: var(--primary);
+            color: white;
+            border-radius: 0 0 40px 40px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.15);
+        }
+
+        h1 { margin: 0; font-size: 2.2rem; }
+        .subtitle { color: var(--accent); font-size: 1.1rem; margin-top: 8px; }
+
+        .tabs {
+            display: flex;
+            overflow-x: auto;
+            gap: 12px;
+            margin-bottom: 30px;
+            padding: 5px;
+            scrollbar-width: none;
+        }
+        .tabs::-webkit-scrollbar { display: none; }
+
+        .tab-btn {
+            background: white;
+            border: 1px solid var(--border);
+            color: var(--text-light);
+            padding: 12px 24px;
+            cursor: pointer;
+            border-radius: 16px;
+            white-space: nowrap;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+
+        .tab-btn.active { background-color: var(--primary); color: white; border-color: var(--primary); }
+
+        .tab-content {
+            display: none;
+            background: var(--card-bg);
+            padding: 35px;
+            border-radius: 32px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+            animation: slideUp 0.3s ease-out;
+        }
+        .tab-content.active { display: block; }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 { color: var(--primary); border-bottom: 2px solid var(--bg); padding-bottom: 10px; }
+        h3 { color: var(--primary); margin-top: 25px; font-size: 1.3rem; border-right: 4px solid var(--accent); padding-right: 10px; margin-bottom: 15px; }
+
+        .highlight-box {
+            background: #f1f5f9;
+            border-right: 4px solid var(--accent);
+            padding: 18px;
+            border-radius: 12px;
+            margin: 15px 0;
+        }
+
+        .example {
+            background: white;
+            border: 1px solid var(--border);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            font-size: 1.1rem;
+        }
+
+        /* AI & Quiz */
+        .ai-section {
+            background: var(--primary);
+            color: white;
+            padding: 25px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+        }
+        .ai-btn {
+            background: var(--accent);
+            color: var(--primary);
+            border: none;
+            padding: 10px 18px;
+            border-radius: 10px;
+            font-weight: 700;
+            cursor: pointer;
+            margin: 4px;
+        }
+        .ai-response {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 12px;
+            margin-top: 15px;
+            display: none;
+            white-space: pre-wrap;
+        }
+
+        .quiz-item { border: 1px solid var(--border); padding: 20px; border-radius: 16px; margin-bottom: 20px; }
+        .option { display: flex; align-items: center; padding: 10px; border: 1px solid var(--border); border-radius: 8px; margin-top: 8px; cursor: pointer; }
+        .option input { margin-left: 10px; }
+        .feedback { margin-top: 10px; padding: 10px; border-radius: 8px; display: none; font-weight: bold; }
+        .feedback.correct { background: #dcfce7; color: #166534; }
+        .feedback.wrong { background: #fee2e2; color: #991b1b; }
+
+        .check-btn { background: var(--primary); color: white; border: none; padding: 8px 20px; border-radius: 8px; cursor: pointer; margin-top: 10px; }
+
+        .important-note { background: #fff1f2; border: 1px solid #fecdd3; color: #9f1239; padding: 15px; border-radius: 12px; margin: 15px 0; }
+
+        footer { text-align: center; padding: 40px; color: var(--text-light); font-size: 0.9rem; }
+        
+        .prop-list { list-style: none; padding: 0; }
+        .prop-list li { margin-bottom: 10px; padding-right: 20px; position: relative; }
+        .prop-list li::before { content: '•'; position: absolute; right: 0; color: var(--accent); font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>הכנה למבחן 3 במתמטיקה</h1>
+        <div class="subtitle">אלגברה ופונקציה ריבועית | אלמוג א'2</div>
+    </header>
+
+    <nav class="tabs">
+        <button class="tab-btn active" onclick="openTab(event, 'algebra')">פירוק לגורמים</button>
+        <button class="tab-btn" onclick="openTab(event, 'equations')">משוואות ריבועיות</button>
+        <button class="tab-btn" onclick="openTab(event, 'fractions')">שברים אלגבריים</button>
+        <button class="tab-btn" onclick="openTab(event, 'parabolas')">הפרבולה</button>
+        <button class="tab-btn" onclick="openTab(event, 'practice')" style="background: var(--accent); color: var(--primary);">🎯 תרגול ו-AI</button>
+    </nav>
+
+    <!-- Algebra Section -->
+    <div id="algebra" class="tab-content active">
+        <h2>1. פירוק לגורמים</h2>
+        <p>פירוק לגורמים הוא הפיכת סכום למכפלה. זה הבסיס לפתרון משוואות וצמצום שברים.</p>
+        
+        <div class="highlight-box">
+            <strong>א. הוצאת גורם משותף:</strong>
+            <div class="example">\( 3x^2 + 12x = 3x(x + 4) \)</div>
+        </div>
+
+        <div class="highlight-box">
+            <strong>ב. נוסחאות הכפל המקוצר:</strong>
+            <div class="example">הפרש ריבועים: \( a^2 - b^2 = (a - b)(a + b) \)</div>
+            <div class="example">דו-איבר בריבוע: \( (a \pm b)^2 = a^2 \pm 2ab + b^2 \)</div>
+        </div>
+
+        <div class="highlight-box">
+            <strong>ג. טרינום ריבועי:</strong> \( x^2 + bx + c \)
+            <p>מחפשים שני מספרים שמכפלתם \( c \) וסכומם \( b \).</p>
+            <div class="example">\( x^2 + 5x + 6 = (x + 2)(x + 3) \)</div>
+        </div>
+    </div>
+
+    <!-- Equations Section -->
+    <div id="equations" class="tab-content">
+        <h2>2. משוואות ממעלה שנייה</h2>
+        <p>כדי לפתור משוואה ריבועית, עלינו להביא אותה לצורה של <b>אפס בצד אחד</b>.</p>
+        
+        <h3>שיטות פתרון:</h3>
+        <div class="highlight-box">
+            <strong>1. הוצאת גורם משותף:</strong>
+            <div class="example">\( x^2 - 7x = 0 \Rightarrow x(x - 7) = 0 \Rightarrow x_1=0, x_2=7 \)</div>
+        </div>
+
+        <div class="highlight-box">
+            <strong>2. שימוש בטרינום או נוסחאות:</strong>
+            <div class="example">\( x^2 - 6x + 9 = 0 \Rightarrow (x-3)^2 = 0 \Rightarrow x=3 \)</div>
+        </div>
+
+        <div class="important-note">
+            ⚠️ <b>זהירות:</b> במשוואה כמו \( x^2 = 16 \), הפתרונות הם \( x = \pm 4 \).
+        </div>
+    </div>
+
+    <!-- Fractions Section -->
+    <div id="fractions" class="tab-content">
+        <h2>3. שברים אלגבריים</h2>
+        <p>לפני כל פעולה בשבר, חובה למצוא את <b>תחום ההצבה</b>.</p>
+        
+        <div class="highlight-box">
+            <strong>שלבי עבודה:</strong>
+            <ol>
+                <li>מפרקים מונה ומכנה לגורמים.</li>
+                <li>בודקים מתי המכנה מתאפס (תחום הצבה).</li>
+                <li>מצמצמים גורמים זהים.</li>
+            </ol>
+        </div>
+
+        <div class="example">
+            דוגמה לצמצום:<br>
+            \[ \frac{x^2 - 9}{x - 3} = \frac{(x-3)(x+3)}{x-3} = x + 3 \]
+            <small>(בתנאי ש- \( x \neq 3 \))</small>
+        </div>
+    </div>
+
+    <!-- Parabola Section -->
+    <div id="parabolas" class="tab-content">
+        <h2>4. הפונקציה הריבועית (הפרבולה)</h2>
+        
+        <div class="highlight-box">
+            <strong>סוג הפרבולה:</strong>
+            <ul>
+                <li><b>ישרה (מחייכת):</b> כאשר \( a > 0 \). לקודקוד יש ערך <b>מינימום</b>.</li>
+                <li><b>הפוכה (בוכה):</b> כאשר \( a < 0 \). לקודקוד יש ערך <b>מקסימום</b>.</li>
+            </ul>
+        </div>
+
+        <h3>א. הזזות (בנפרד)</h3>
+        <div class="highlight-box">
+            <strong>1. הזזה אנכית: \( y = x^2 + c \)</strong>
+            <div class="example">\( y = x^2 + 3 \) (3 יחידות למעלה). קודקוד: \( (0, 3) \)</div>
+        </div>
+
+        <div class="highlight-box">
+            <strong>2. הזזה אופקית: \( y = (x - p)^2 \)</strong>
+            <div class="example">\( y = (x - 5)^2 \) (5 יחידות <b>ימינה</b>). קודקוד: \( (5, 0) \)</div>
+            <div class="example">\( y = (x + 2)^2 \) (2 יחידות <b>שמאלה</b>). קודקוד: \( (-2, 0) \)</div>
+        </div>
+
+        <h3>ב. נקודות חיתוך עם הצירים</h3>
+        <ul class="prop-list">
+            <li><b>עם ציר ה-y:</b> מציבים \( x = 0 \).</li>
+            <li><b>עם ציר ה-x:</b> מציבים \( y = 0 \) ופתור את המשוואה.</li>
+        </ul>
+
+        <h3>ג. תכונות נוספות</h3>
+        <div class="highlight-box">
+            <strong>ציר סימטריה:</strong> משוואתו תמיד: \( x = p \) (ה-x של הקודקוד).
+        </div>
+
+        <div class="highlight-box">
+            <strong>חיוביות ושליליות:</strong>
+            <ul>
+                <li><b>חיוביות:</b> תחומי ה-x בהם \( y > 0 \) (מעל הציר) לפי נקודות חיתוך עם ציר הx.</li>
+                <li><b>שליליות:</b> תחומי ה-x בהם \( y < 0 \) (מתחת לציר) לפי נקודות חיתוך עם ציר הx.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Practice Section -->
+    <div id="practice" class="tab-content">
+        <div class="ai-section">
+            <h3 style="margin-top:0; color:white; border:none">✨ מסייע AI אישי</h3>
+            <button class="ai-btn" onclick="aiAction('study_plan')">בנה לי תוכנית</button>
+            <button class="ai-btn" onclick="aiAction('new_question')">צור שאלה חדשה</button>
+            <div id="ai-loading" style="display:none; margin:10px 0;">ה-AI מעבד נתונים...</div>
+            <div id="ai-response" class="ai-response"></div>
+        </div>
+
+        <h2>בוחן תרגול מורחב</h2>
+        <div id="quiz-container"></div>
+    </div>
+
+    <footer>
+        <p>למידה למתמטיקה | הקבצה א'2</p>
+    </footer>
+</div>
+
+<script>
+    const apiKey = "AIzaSyA3IAtkjcbM1ThwFkEEkN323OJCxCEj7M4"; 
+
+    function openTab(evt, tabName) {
+        document.querySelectorAll(".tab-content").forEach(c => c.classList.remove("active"));
+        document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+        document.getElementById(tabName).classList.add("active");
+        evt.currentTarget.classList.add("active");
+        window.scrollTo(0,0);
+    }
+
+    const quizData = [
+        {
+            q: "מהו ציר הסימטריה של הפונקציה \\( y = (x - 7)^2 \\)?",
+            options: ["x = -7", "x = 7", "y = 7", "x = 0"],
+            correct: 1,
+            hint: "ציר הסימטריה הוא תמיד x = p."
+        },
+        {
+            q: "מהן נקודות החיתוך עם ציר ה-x של \\( y = x^2 - 16 \\)?",
+            options: ["(0, -16)", "(4, 0) בלבד", "(4, 0) ו-(-4, 0)", "(16, 0) ו-(-16, 0)"],
+            correct: 2,
+            hint: "פתרי את המשוואה x בריבוע פחות 16 שווה אפס."
+        },
+        {
+            q: "בפונקציה \\( y = x^2 + 5 \\), מהן קואורדינטות הקודקוד?",
+            options: ["(5, 0)", "(0, 5)", "(0, -5)", "(-5, 0)"],
+            correct: 1,
+            hint: "זו הזזה אנכית של x בריבוע."
+        },
+        {
+            q: "פשט את השבר הבא: \\( \\frac{x^2 - 25}{x + 5} \\)",
+            options: ["x + 5", "x - 25", "x - 5", "5"],
+            correct: 2,
+            hint: "פרקי את המונה לפי נוסחת הפרש ריבועים."
+        },
+        {
+            q: "מהו הפירוק לגורמים של \\( x^2 - 10x + 21 \\)?",
+            options: ["(x-7)(x-3)", "(x+7)(x+3)", "(x-10)(x-21)", "(x-7)(x+3)"],
+            correct: 0,
+            hint: "חפשי שני מספרים שמכפלתם 21 וסכומם 10-."
+        },
+        {
+            q: "עבור הפונקציה \\( y = -(x-2)^2 \\), מהי נקודת הקיצון?",
+            options: ["מינימום ב-(2,0)", "מקסימום ב-(2,0)", "מקסימום ב-(-2,0)", "מינימום ב-(0,2)"],
+            correct: 1,
+            hint: "המקדם שלילי (פרבולה בוכה) והזזה היא 2 יחידות ימינה."
+        },
+        {
+            q: "מהן נקודות החיתוך של \\( y = x^2 + 4x \\) עם ציר ה-x?",
+            options: ["(0,0) בלבד", "(0,0) ו-(4,0)", "(0,0) ו-(-4,0)", "(4,0) ו-(-4,0)"],
+            correct: 2,
+            hint: "הוציאי גורם משותף x והשווי לאפס."
+        },
+        {
+            q: "עבור הפרבולה \\( y = x^2 - 9 \\), באיזה תחום הפונקציה שלילית?",
+            options: ["x > 3", "x < -3", "-3 < x < 3", "כל x"],
+            correct: 2,
+            hint: "ציירי את הפרבולה. היא נמצאת מתחת לציר ה-x בין נקודות החיתוך."
+        },
+        {
+            q: "מהו תחום ההצבה של השבר \\( \\frac{x+2}{x^2-1} \\)?",
+            options: ["x ≠ -2", "x ≠ 1", "x ≠ 1, x ≠ -1", "כל x"],
+            correct: 2,
+            hint: "המכנה אסור שיהיה אפס. פתרי את x^2 - 1 = 0."
+        },
+        {
+            q: "בפרבולה \\( y = (x+4)^2 \\), מהו תחום הירידה?",
+            options: ["x < -4", "x > -4", "x < 4", "x > 4"],
+            correct: 0,
+            hint: "זו פרבולה מחייכת שהקודקוד שלה ב-(-4,0). היא יורדת לפני הקודקוד."
+        }
+    ];
+
+    function initQuiz() {
+        const container = document.getElementById('quiz-container');
+        container.innerHTML = quizData.map((data, i) => `
+            <div class="quiz-item">
+                <div style="font-size: 1.1rem; margin-bottom: 10px;"><strong>שאלה ${i+1}:</strong> ${data.q}</div>
+                <div class="options-list">
+                    ${data.options.map((opt, oi) => `
+                        <label class="option">
+                            <input type="radio" name="q${i}" value="${oi}">
+                            ${opt}
+                        </label>
+                    `).join('')}
+                </div>
+                <button class="check-btn" onclick="checkAnswer(${i})">בדוק</button>
+                <button class="check-btn" style="background:#64748b; font-size:0.8rem" onclick="getAiExplanation(${i})">✨ הסבר AI</button>
+                <div id="feedback-${i}" class="feedback"></div>
+            </div>
+        `).join('');
+        // Re-render MathJax after building quiz
+        if (window.MathJax) MathJax.typeset();
+    }
+
+    window.checkAnswer = function(idx) {
+        const selected = document.querySelector(`input[name="q${idx}"]:checked`);
+        const feedback = document.getElementById(`feedback-${idx}`);
+        if (!selected) return;
+        if (parseInt(selected.value) === quizData[idx].correct) {
+            feedback.innerHTML = "נכון! 🌟";
+            feedback.className = "feedback correct";
+        } else {
+            feedback.innerHTML = `רמז: ${quizData[idx].hint}`;
+            feedback.className = "feedback wrong";
+        }
+        feedback.style.display = "block";
+    };
+
+    async function callGemini(prompt) {
+        const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
+        });
+        const result = await response.json();
+        return result.candidates[0].content.parts[0].text;
+    }
+
+    async function aiAction(type) {
+        const loading = document.getElementById('ai-loading');
+        const response = document.getElementById('ai-response');
+        loading.style.display = 'block';
+        response.style.display = 'none';
+
+        let prompt = type === 'study_plan' ? 
+            "בנה תוכנית לימודים מפורטת ל-3 ימים למבחן במתמטיקה כיתה ט הקבצה א על אלגברה ופונקציה ריבועית. החזר טקסט עם נוסחאות בפורמט LaTeX כמו $x^2$." : 
+            "צור שאלת תרגול חדשה על חקירת פרבולה כולל פתרון. השתמש בפורמט LaTeX למתמטיקה.";
+        
+        try {
+            const res = await callGemini(prompt);
+            response.innerHTML = res;
+            response.style.display = 'block';
+            if (window.MathJax) MathJax.typeset();
+        } catch (e) {
+            response.innerHTML = "שגיאה בחיבור ל-AI.";
+            response.style.display = 'block';
+        } finally {
+            loading.style.display = 'none';
+        }
+    }
+
+    async function getAiExplanation(idx) {
+        const response = document.getElementById('ai-response');
+        const loading = document.getElementById('ai-loading');
+        loading.style.display = 'block';
+        response.style.display = 'none';
+        const prompt = `הסבר לי שלב אחר שלב בעברית איך פותרים: ${quizData[idx].q}. השתמש ב-LaTeX למתמטיקה.`;
+        try {
+            const res = await callGemini(prompt);
+            response.innerHTML = `<strong>הסבר לשאלה ${idx+1}:</strong>\n${res}`;
+            response.style.display = 'block';
+            if (window.MathJax) MathJax.typeset();
+            response.scrollIntoView({behavior: 'smooth'});
+        } catch (e) {
+            response.innerHTML = "שגיאה בטעינת הסבר.";
+            response.style.display = 'block';
+        } finally {
+            loading.style.display = 'none';
+        }
+    }
+
+    window.onload = initQuiz;
+</script>
+</body>
+</html>
